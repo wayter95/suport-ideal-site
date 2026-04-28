@@ -16,8 +16,7 @@ export function Nav() {
           alt=""
           width={120}
           height={24}
-          className="h-5 w-auto max-w-[min(100px,42vw)] sm:h-6 sm:max-w-none"
-          style={{ width: "auto" }}
+          className="h-auto w-[96px] sm:w-[120px]"
           priority
         />
       </Link>

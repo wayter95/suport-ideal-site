@@ -8,6 +8,9 @@ const GRID_TEXTURE =
 export type CatalogCardBackdropProps = {
   /** Quando definido, exibe foto de capa em vez do padrão de grade. */
   coverSrc?: string;
+  /** Ajustes de estilo opcionais para o card de capa. */
+  imageClassName?: string;
+  overlayClassName?: string;
 };
 
 function coverImageSrcWithVersion(src: string): string {
@@ -15,7 +18,11 @@ function coverImageSrcWithVersion(src: string): string {
   return `${src}${sep}cv=${catalogCoverAssetVersion}`;
 }
 
-export function CatalogCardBackdrop({ coverSrc }: CatalogCardBackdropProps) {
+export function CatalogCardBackdrop({
+  coverSrc,
+  imageClassName,
+  overlayClassName,
+}: CatalogCardBackdropProps) {
   if (coverSrc) {
     return (
       <div
@@ -26,9 +33,10 @@ export function CatalogCardBackdrop({ coverSrc }: CatalogCardBackdropProps) {
           src={coverImageSrcWithVersion(coverSrc)}
           alt=""
           fill
-          className="object-cover opacity-50"
+          className={`object-cover ${imageClassName ?? "opacity-50"}`}
           sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
         />
+        {overlayClassName ? <div className={`absolute inset-0 ${overlayClassName}`} /> : null}
       </div>
     );
   }

@@ -31,10 +31,16 @@ export function Catalog() {
                 : "border border-line bg-bg-elev hover:border-accent"
             }`}
           >
-            {/* Fundo: grade ou capa — só nos cards normais */}
-            {!cat.highlight && (
-              <CatalogCardBackdrop coverSrc={cat.cardCoverSrc} />
-            )}
+            {/* Fundo: imagem em todos os cards; highlight recebe overlay alaranjado */}
+            <CatalogCardBackdrop
+              coverSrc={cat.cardCoverSrc}
+              imageClassName={cat.highlight ? "opacity-30 saturate-[0.85]" : "opacity-50"}
+              overlayClassName={
+                cat.highlight
+                  ? "bg-[linear-gradient(145deg,rgba(255,106,0,0.55),rgba(255,106,0,0.22)_45%,rgba(0,0,0,0.08))]"
+                  : undefined
+              }
+            />
 
             <div className="relative flex flex-col gap-4">
               <h4

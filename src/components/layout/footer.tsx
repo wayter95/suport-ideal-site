@@ -17,7 +17,7 @@ export function Footer() {
               width={148}
               height={42}
               className="h-[42px] w-auto"
-              style={{ width: "auto" }}
+              style={{ width: "auto", height: "auto" }}
             />
             <p className="mt-6 max-w-[36ch] text-sm leading-[1.5]">{companyInfo.tagline}</p>
             <div className="mt-6 flex gap-2">
