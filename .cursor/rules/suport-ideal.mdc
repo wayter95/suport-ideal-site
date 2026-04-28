@@ -5,6 +5,8 @@ alwaysApply: true
 
 # Suport Ideal — convenções
 
+- Always use yarn to install libs e run scripts
+- Alway use tailwindcss
 - Always respect the folder structure
 - Always prioritize reusable components
 - Never place business logic inside UI components
