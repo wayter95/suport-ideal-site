@@ -1,3 +1,10 @@
+---
+description: Padrões do projeto — estrutura, componentes, TypeScript, pastas e limites do agente
+alwaysApply: true
+---
+
+# Suport Ideal — convenções
+
 - Always respect the folder structure
 - Always prioritize reusable components
 - Never place business logic inside UI components
@@ -6,13 +13,13 @@
 - Follow clean code and scalability principles
 - When creating new UI, think if it can be reused → if yes, create a component
 
-### 1. Component Strategy
+## 1. Component Strategy
 
 - ANY reusable UI must be a component inside /components
 - Even simple elements should be abstracted if they could be reused in the future
 - Follow separation of concerns strictly
 
-### 2. Code Quality
+## 2. Code Quality
 
 - Use clean architecture principles
 - Use absolute imports if possible
@@ -20,14 +27,14 @@
 - Create types/interfaces whenever needed
 - Follow modern patterns (hooks, server/client separation when needed)
 
-### 3. Folder Responsibilities
+## 3. Folder Responsibilities
 
 - components → reusable UI
 - utils → pure functions/helpers
 - configs → global configs (constants, env mapping, etc)
 - lib → integrations, services, external logic
 
-## ⚠️ IMPORTANT
+## IMPORTANT
 
 - Do NOT add unnecessary complexity
 - Do NOT over-engineer
