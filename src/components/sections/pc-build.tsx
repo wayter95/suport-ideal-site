@@ -1,10 +1,17 @@
+"use client";
+
+import { useState } from "react";
+
 import { Btn, BtnArrow } from "@/components/ui/btn";
 import { Eyebrow } from "@/components/ui/eyebrow";
+import { PcBuildBriefingModal } from "@/components/ui/pc-build-briefing-modal";
 import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
-import { pcBuildSteps, whatsappLink } from "@/configs/app.config";
+import { pcBuildSteps } from "@/configs/app.config";
 
 export function PcBuild() {
+  const [briefingOpen, setBriefingOpen] = useState(false);
+
   return (
     <Section
       id="montagem"
@@ -45,17 +52,14 @@ export function PcBuild() {
           </div>
 
           <div className="mt-10 flex flex-wrap gap-3.5">
-            <Btn
-              href={whatsappLink("Olá! Quero orçamento de montagem de PC")}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="primary"
-              size="lg"
-              className="group"
+            <button
+              type="button"
+              onClick={() => setBriefingOpen(true)}
+              className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-transparent bg-accent px-7 py-[18px] text-base font-semibold tracking-[-0.005em] text-black shadow-[0_0_0_0_var(--color-accent-glow),0_12px_40px_-10px_var(--color-accent-glow)] transition-[transform,background,color,box-shadow,border-color] duration-300 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:shadow-[0_0_0_6px_var(--color-accent-glow),0_18px_48px_-10px_var(--color-accent-glow)] max-sm:min-h-11 max-sm:whitespace-normal max-sm:px-5 max-sm:py-3.5 max-sm:text-center max-sm:text-sm"
             >
               Pedir orçamento
               <BtnArrow />
-            </Btn>
+            </button>
             <Btn href="#contato" variant="ghost" size="lg">
               Conversar com técnico
             </Btn>
@@ -78,6 +82,8 @@ export function PcBuild() {
           />
         </Reveal>
       </div>
+
+      <PcBuildBriefingModal open={briefingOpen} onClose={() => setBriefingOpen(false)} />
     </Section>
   );
 }

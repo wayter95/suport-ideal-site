@@ -1,10 +1,13 @@
-import Link from "next/link";
+"use client";
 
+import { useState } from "react";
+
+import { QuoteModal } from "@/components/ui/quote-modal";
 import { BtnArrow } from "@/components/ui/btn";
 import { Reveal } from "@/components/ui/reveal";
 import { Section } from "@/components/ui/section";
 import { SectionHead } from "@/components/ui/section-head";
-import { services, whatsappLink, type ServiceSize } from "@/configs/app.config";
+import { services, type ServiceConfig, type ServiceSize } from "@/configs/app.config";
 
 const spanByDesktop: Record<ServiceSize, string> = {
   lg: "xl:col-span-8",
@@ -23,6 +26,8 @@ const minHeightByDesktop: Record<ServiceSize, string> = {
 };
 
 export function Services() {
+  const [activeService, setActiveService] = useState<ServiceConfig | null>(null);
+
   return (
     <Section id="servicos" flushTop>
       <SectionHead
@@ -55,15 +60,14 @@ export function Services() {
               {service.description}
             </p>
             <div className="mt-6 flex w-full min-w-0 flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <Link
-                href={whatsappLink(service.whatsappText)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex w-full min-w-0 items-center justify-center gap-2.5 rounded-full border border-line-strong bg-transparent px-5 py-3.5 text-sm font-semibold text-fg transition-[background,border-color,color] duration-300 hover:border-fg hover:bg-white/[0.04] sm:w-auto sm:justify-start sm:px-[22px] sm:py-[14px] sm:text-[15px]"
+              <button
+                type="button"
+                onClick={() => setActiveService(service)}
+                className="group inline-flex w-full min-w-0 items-center justify-center gap-2.5 rounded-full border border-line-strong bg-transparent px-5 py-3.5 text-sm font-semibold text-fg transition-[background,border-color,color] duration-300 hover:border-fg hover:bg-white/[0.04] sm:w-auto sm:justify-start sm:px-[22px] sm:py-[14px] sm:text-[15px]"
               >
                 {service.ctaLabel}
                 <BtnArrow />
-              </Link>
+              </button>
             </div>
           </Reveal>
         ))}
@@ -88,6 +92,14 @@ export function Services() {
           </p>
         </Reveal>
       </div>
+
+      <QuoteModal
+        open={activeService !== null}
+        subject={activeService?.title ?? ""}
+        allowedTypes={activeService?.allowedEquipmentTypes}
+        requiresAddress={activeService?.requiresAddress}
+        onClose={() => setActiveService(null)}
+      />
     </Section>
   );
 }

@@ -63,7 +63,28 @@ export const quickServices = [
 
 export type ServiceSize = "lg" | "md" | "sm";
 
-export const services: ReadonlyArray<{
+export const OTHER_OPTION = "Outro" as const;
+
+export type EquipmentType =
+  | "Celular"
+  | "Notebook"
+  | "Computador (desktop)"
+  | "Tablet"
+  | "Console"
+  | "Smartwatch"
+  | typeof OTHER_OPTION;
+
+export const equipmentTypes: ReadonlyArray<EquipmentType> = [
+  "Celular",
+  "Notebook",
+  "Computador (desktop)",
+  "Tablet",
+  "Console",
+  "Smartwatch",
+  OTHER_OPTION,
+];
+
+export interface ServiceConfig {
   id: string;
   numLabel: string;
   title: string;
@@ -71,7 +92,24 @@ export const services: ReadonlyArray<{
   ctaLabel: string;
   whatsappText: string;
   size: ServiceSize;
-}> = [
+  /**
+   * Tipos de equipamento aplicáveis ao serviço. `OTHER_OPTION` é sempre acrescentado
+   * automaticamente para flexibilidade. Se omitido, o modal mostra todos os tipos.
+   */
+  allowedEquipmentTypes?: ReadonlyArray<EquipmentType>;
+  /**
+   * Quando true, o formulário exibe campos extras de Cidade e Endereço
+   * (necessários para serviços que envolvem deslocamento, ex: visita técnica).
+   */
+  requiresAddress?: boolean;
+}
+
+/** Cidades atendidas — usado no select de endereço para serviços com requiresAddress. */
+export const serviceCityOptions: ReadonlyArray<string> = companyInfo.servedCities.map(
+  (city) => `${city} - ${companyInfo.region}`,
+);
+
+export const services: ReadonlyArray<ServiceConfig> = [
   {
     id: "01",
     numLabel: "01 / Mais procurado",
@@ -81,6 +119,7 @@ export const services: ReadonlyArray<{
     ctaLabel: "Orçar troca de tela",
     whatsappText: "Olá! Quero orçamento de troca de tela",
     size: "lg",
+    allowedEquipmentTypes: ["Celular", "Tablet"],
   },
   {
     id: "02",
@@ -91,6 +130,7 @@ export const services: ReadonlyArray<{
     ctaLabel: "Orçar",
     whatsappText: "Olá! Quero orçamento de troca de bateria",
     size: "sm",
+    allowedEquipmentTypes: ["Celular", "Notebook", "Tablet", "Smartwatch"],
   },
   {
     id: "03",
@@ -101,6 +141,7 @@ export const services: ReadonlyArray<{
     ctaLabel: "Orçar",
     whatsappText: "Olá! Quero orçamento de formatação",
     size: "md",
+    allowedEquipmentTypes: ["Notebook", "Computador (desktop)"],
   },
   {
     id: "04",
@@ -111,6 +152,7 @@ export const services: ReadonlyArray<{
     ctaLabel: "Orçar",
     whatsappText: "Olá! Quero orçamento de manutenção preventiva",
     size: "md",
+    allowedEquipmentTypes: ["Notebook", "Computador (desktop)"],
   },
   {
     id: "05",
@@ -121,6 +163,7 @@ export const services: ReadonlyArray<{
     ctaLabel: "Orçar",
     whatsappText: "Olá! Quero orçamento de upgrade SSD/memória",
     size: "md",
+    allowedEquipmentTypes: ["Notebook", "Computador (desktop)"],
   },
   {
     id: "06",
@@ -131,6 +174,7 @@ export const services: ReadonlyArray<{
     ctaLabel: "Orçar",
     whatsappText: "Olá! Preciso de atendimento remoto",
     size: "md",
+    allowedEquipmentTypes: ["Notebook", "Computador (desktop)"],
   },
   {
     id: "07",
@@ -141,6 +185,7 @@ export const services: ReadonlyArray<{
     ctaLabel: "Solicitar visita",
     whatsappText: "Olá! Preciso de visita técnica empresarial",
     size: "md",
+    requiresAddress: true,
   },
 ];
 
@@ -306,3 +351,113 @@ export const footerColumns = [
 
 export const whatsappLink = (text?: string) =>
   `https://wa.me/${companyInfo.phoneRaw}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
+
+/* ============================================================
+   Briefing de Montagem de PC
+   ============================================================ */
+
+export const PC_BUILD_SCOPES = {
+  ASSEMBLY_ONLY: "Já tenho as peças, quero só a montagem",
+  QUOTE_AND_BUILD: "Quero cotar as peças e montar",
+  HYBRID: "Tenho algumas peças, preciso cotar o resto",
+  CONSULTING: "Ainda não sei, quero uma consultoria",
+} as const;
+
+export type PcBuildScope = (typeof PC_BUILD_SCOPES)[keyof typeof PC_BUILD_SCOPES];
+
+export const pcBuildScopeOptions: ReadonlyArray<PcBuildScope> = [
+  PC_BUILD_SCOPES.QUOTE_AND_BUILD,
+  PC_BUILD_SCOPES.HYBRID,
+  PC_BUILD_SCOPES.ASSEMBLY_ONLY,
+  PC_BUILD_SCOPES.CONSULTING,
+];
+
+export const pcBuildPurposeOptions: ReadonlyArray<string> = [
+  "Trabalho / escritório",
+  "Estudo",
+  "Jogos",
+  "Edição de vídeo / foto",
+  "Streaming / criação de conteúdo",
+  "Modelagem 3D / engenharia",
+  "Servidor / workstation",
+  "Uso misto",
+  "Outro",
+];
+
+export const pcBuildResolutionOptions: ReadonlyArray<string> = [
+  "1080p (Full HD)",
+  "1440p (2K)",
+  "2160p (4K)",
+  "Não sei / indiferente",
+];
+
+export const pcBuildFpsOptions: ReadonlyArray<string> = [
+  "60 FPS estável",
+  "144 FPS",
+  "240+ FPS competitivo",
+  "Não joga",
+];
+
+export const pcBuildBudgetOptions: ReadonlyArray<string> = [
+  "Até R$ 3.000",
+  "R$ 3.000 – R$ 5.000",
+  "R$ 5.000 – R$ 8.000",
+  "R$ 8.000 – R$ 12.000",
+  "Acima de R$ 12.000",
+  "Preciso de uma sugestão",
+];
+
+export const pcBuildDeadlineOptions: ReadonlyArray<string> = [
+  "Sem pressa",
+  "Em até 15 dias",
+  "Em até 30 dias",
+  "Urgente",
+];
+
+export const pcBuildOwnedItemsOptions: ReadonlyArray<string> = [
+  "Monitor",
+  "Teclado",
+  "Mouse",
+  "Headset",
+  "Gabinete",
+];
+
+export const pcBuildIncludeItemsOptions: ReadonlyArray<string> = [
+  "Monitor",
+  "Periféricos (teclado/mouse)",
+  "Headset",
+  "Sistema operacional (Windows)",
+  "Wi-Fi",
+  "Iluminação RGB",
+  "Refrigeração líquida",
+];
+
+export const pcBuildStyleOptions: ReadonlyArray<string> = [
+  "Discreto / sóbrio",
+  "Gamer / RGB",
+  "Minimalista branco",
+  "Workstation profissional",
+  "Indiferente",
+];
+
+export const pcBuildBrandPreferenceOptions: ReadonlyArray<string> = [
+  "Sem preferência",
+  "Intel + NVIDIA",
+  "AMD + NVIDIA",
+  "AMD + AMD (Radeon)",
+  "Outro",
+];
+
+/**
+ * Marcas disponíveis por tipo de equipamento.
+ * "Outro" sempre disponível como última opção para texto livre.
+ */
+export const brandsByEquipmentType: Record<EquipmentType, ReadonlyArray<string>> = {
+  Celular: ["Apple", "Samsung", "Xiaomi", "Motorola", "Realme", "OnePlus", OTHER_OPTION],
+  Notebook: ["Dell", "Lenovo", "ASUS", "Acer", "HP", "Apple", "Samsung", OTHER_OPTION],
+  "Computador (desktop)": ["Dell", "Lenovo", "HP", "Positivo", "Montagem própria", OTHER_OPTION],
+  Tablet: ["Apple", "Samsung", "Xiaomi", "Lenovo", OTHER_OPTION],
+  Console: ["PlayStation", "Xbox", "Nintendo", OTHER_OPTION],
+  Smartwatch: ["Apple", "Samsung", "Xiaomi", "Garmin", "Amazfit", OTHER_OPTION],
+  [OTHER_OPTION]: [OTHER_OPTION],
+};
